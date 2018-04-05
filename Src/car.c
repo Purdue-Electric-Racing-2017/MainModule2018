@@ -175,24 +175,22 @@ void initRTOSObjects() {
 
 	/* Create Queues */
 
-	//car.q_rxcan = 			xQueueCreate(QUEUE_SIZE_RXCAN, sizeof(CanRxMsgTypeDef));
-	//car.q_txcan = 			xQueueCreate(QUEUE_SIZE_TXCAN, sizeof(CanTxMsgTypeDef));
-	//car.q_pedalboxmsg = 	xQueueCreate(QUEUE_SIZE_PEDALBOXMSG, sizeof(Pedalbox_msg_t));
-	//car.q_mc_frame = 		xQueueCreate(QUEUE_SIZE_MCFRAME, sizeof(CanRxMsgTypeDef));
+	car.q_rxcan = 			xQueueCreate(QUEUE_SIZE_RXCAN, sizeof(CanRxMsgTypeDef));
+	car.q_txcan = 			xQueueCreate(QUEUE_SIZE_TXCAN, sizeof(CanTxMsgTypeDef));
+	car.q_pedalboxmsg = 	xQueueCreate(QUEUE_SIZE_PEDALBOXMSG, sizeof(Pedalbox_msg_t));
+//	car.q_mc_frame = 		xQueueCreate(QUEUE_SIZE_MCFRAME, sizeof(CanRxMsgTypeDef));
 
-	//car.m_CAN =				xSemaphoreCreateMutex(); //mutex to protect CAN peripheral
+	car.m_CAN =				xSemaphoreCreateMutex(); //mutex to protect CAN peripheral
 
 	/* Create Tasks */
 
 	//todo optimize stack depths http://www.freertos.org/FAQMem.html#StackSize
-//	xTaskCreate(taskPedalBoxMsgHandler, "PedalBoxMsgHandler", 512, NULL, 1, NULL);
-//	xTaskCreate(taskCarMainRoutine, "CarMainRoutine", 512, NULL, 1, NULL);
-//	xTaskCreate(taskTXCAN, "TX CAN", 256, NULL, 1, NULL);
-//	xTaskCreate(taskRXCANProcess, "RX CAN Process", 256, NULL, 1, NULL);
-//	xTaskCreate(taskRXCAN, "RX CAN", 256, NULL, 1, NULL);
-	xTaskCreate(taskBlink, "blink", 256, NULL, 1, NULL);
-	//xTaskCreate(taskSendAccelero, "accel", 256, NULL, 1, NULL);
-	//xTaskCreate(taskMotorControllerPoll, "Motor Poll", 256, NULL, 1, NULL);
+	//xTaskCreate(taskPedalBoxMsgHandler, "PedalBoxMsgHandler", 64, NULL, 1, NULL);
+	xTaskCreate(taskCarMainRoutine, "CarMainRoutine", 64, NULL, 1, NULL);
+	//xTaskCreate(taskTXCAN, "TX CAN", 64, NULL, 1, NULL);
+	xTaskCreate(taskRXCANProcess, "RX CAN Process", 64, NULL, 1, NULL);
+	xTaskCreate(taskBlink, "blink", 32, NULL, 1, NULL);
+	//xTaskCreate(taskMotorControllerPoll, "Motor Poll", 64, NULL, 1, NULL);
  }
 //extern uint8_t variable;
 void taskBlink(void* can)
@@ -201,7 +199,7 @@ void taskBlink(void* can)
 	while (1)
 	{
 		//HAL_GPIO_TogglePin(FRG_RUN_CTRL_GPIO_Port, FRG_RUN_CTRL_Pin);
-		HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
+		//HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
 		//HAL_GPIO_TogglePin(LD5_GPIO_Port, LD5_Pin);
 
 		CanTxMsgTypeDef tx;
@@ -210,24 +208,20 @@ void taskBlink(void* can)
 		tx.RTR = CAN_RTR_DATA;
 		tx.StdId = 0x200;
 		tx.DLC = 1;
-		tx.Data[0] = 0xab;
-//		if (car.state == CAR_STATE_INIT)
-//		{
-//			tx.Data[0] = 0;
-//		}
-//		else if (car.state == CAR_STATE_READY2DRIVE)
-//		{
-//			tx.Data[0] = 1;
-//		}
-//		//req regid 40
-
+		if (car.state == CAR_STATE_INIT)
+		{
+			tx.Data[0] = 0;
+		}
+		else if (car.state == CAR_STATE_READY2DRIVE)
+		{
+			tx.Data[0] = 1;
+		}
+		//xQueueSendToBack(car.q_txcan, &tx, 100);
 		hcan1.pTxMsg = &tx;
-		HAL_CAN_Transmit(&hcan1, 1000);						//transmit staged message
-
-//
-//		xQueueSendToBack(car.q_txcan, &tx, 100);
+		HAL_CAN_Transmit_IT(&hcan1);
+		//		//req regid 40
 		//mcCmdTransmissionRequestSingle(0x40);
-		vTaskDelay(255);
+		vTaskDelay(250);
 	}
 }
 

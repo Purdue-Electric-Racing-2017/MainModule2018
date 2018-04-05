@@ -37,7 +37,7 @@
 #include "cmsis_os.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "car.h"
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -180,10 +180,12 @@ void CAN1_TX_IRQHandler(void)
 void CAN1_RX0_IRQHandler(void)
 {
   /* USER CODE BEGIN CAN1_RX0_IRQn 0 */
-
+	xQueueSendFromISR(car.q_rxcan, &hcan1, NULL);
   /* USER CODE END CAN1_RX0_IRQn 0 */
   HAL_CAN_IRQHandler(&hcan1);
   /* USER CODE BEGIN CAN1_RX0_IRQn 1 */
+
+	HAL_CAN_Receive_IT(&hcan1, 0);  //get ready to receive again
 
   /* USER CODE END CAN1_RX0_IRQn 1 */
 }
@@ -194,10 +196,12 @@ void CAN1_RX0_IRQHandler(void)
 void CAN1_RX1_IRQHandler(void)
 {
   /* USER CODE BEGIN CAN1_RX1_IRQn 0 */
+	xQueueSendFromISR(car.q_rxcan, &hcan1, NULL);
 
   /* USER CODE END CAN1_RX1_IRQn 0 */
   HAL_CAN_IRQHandler(&hcan1);
   /* USER CODE BEGIN CAN1_RX1_IRQn 1 */
+	HAL_CAN_Receive_IT(&hcan1, 1);  //get ready to receive again
 
   /* USER CODE END CAN1_RX1_IRQn 1 */
 }

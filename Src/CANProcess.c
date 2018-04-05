@@ -200,6 +200,8 @@ void taskTXCAN()
 ***************************************************************************/
 void taskRXCANProcess()
 {
+	HAL_CAN_Receive_IT(&hcan1, 0);
+	HAL_CAN_Receive_IT(&hcan1, 1);
 	CanRxMsgTypeDef rx;  //CanRxMsgTypeDef to be received on the queue
 	while (1)
 	{
@@ -208,7 +210,7 @@ void taskRXCANProcess()
 		if (xQueueReceive(car.q_rxcan, &rx, portMAX_DELAY) == pdTRUE)
 		{
 			//A CAN message has been recieved
-
+			HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
 			//check what kind of message we received
 			switch (rx.StdId)
 			{
@@ -231,7 +233,7 @@ void taskRXCANProcess()
 				case	ID_WHEEL_RR:
 				case	ID_WHEEL_RL: //todo add all the other wheel module IDs
 				{
-					processWheelModuleFrame(&rx);
+					//processWheelModuleFrame(&rx);
 					break;
 				}
 				case	ID_DASHBOARD:

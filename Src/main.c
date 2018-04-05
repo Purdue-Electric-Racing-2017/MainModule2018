@@ -113,7 +113,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
   carInit();
   CANFilterConfig();
-  initRTOSObjects();
+  initRTOSObjects();  //start tasks in here
+
+
 
   /* USER CODE END 2 */
 
