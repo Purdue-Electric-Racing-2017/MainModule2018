@@ -185,10 +185,10 @@ void initRTOSObjects() {
 	/* Create Tasks */
 
 	//todo optimize stack depths http://www.freertos.org/FAQMem.html#StackSize
-	//xTaskCreate(taskPedalBoxMsgHandler, "PedalBoxMsgHandler", 64, NULL, 1, NULL);
-	xTaskCreate(taskCarMainRoutine, "CarMainRoutine", 64, NULL, 1, NULL);
-	//xTaskCreate(taskTXCAN, "TX CAN", 64, NULL, 1, NULL);
-	xTaskCreate(taskRXCANProcess, "RX CAN Process", 64, NULL, 1, NULL);
+	xTaskCreate(taskPedalBoxMsgHandler, "PedalBoxMsgHandler", 64, NULL, 1, NULL);
+	xTaskCreate(taskCarMainRoutine, "CarMain", 128 , NULL, 1, NULL);
+	xTaskCreate(taskTXCAN, "TX CAN", 64, NULL, 1, NULL);
+	xTaskCreate(taskRXCANProcess, "RX CAN", 64, NULL, 1, NULL);
 	xTaskCreate(taskBlink, "blink", 32, NULL, 1, NULL);
 	//xTaskCreate(taskMotorControllerPoll, "Motor Poll", 64, NULL, 1, NULL);
  }
