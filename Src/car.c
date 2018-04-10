@@ -305,7 +305,8 @@ void taskCarMainRoutine() {
 
 			//assert these pins always
 			HAL_GPIO_WritePin(SDC_CTRL_GPIO_Port, SDC_CTRL_Pin, GPIO_PIN_SET); //close SDC
-			HAL_GPIO_WritePin(Motor_Controller_Relay_CTRL_GPIO_Port, Motor_Controller_Relay_CTRL_Pin, GPIO_PIN_SET); //turn on mc
+			//Removed Motor Controller Relay Pin from the L4 board 4/10/2018 - Matt Flanagan
+			//HAL_GPIO_WritePin(Motor_Controller_Relay_CTRL_GPIO_Port, Motor_Controller_Relay_CTRL_Pin, GPIO_PIN_SET); //turn on mc
 		}
 		if (car.state == CAR_STATE_PREREADY2DRIVE)
 		{
@@ -387,3 +388,5 @@ void taskCarMainRoutine() {
 	}
 
 }
+
+
