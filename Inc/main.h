@@ -56,12 +56,20 @@
 
 /* Private define ------------------------------------------------------------*/
 
-#define BRAKE_LIGHT_Pin GPIO_PIN_1
-#define BRAKE_LIGHT_GPIO_Port GPIOA
+#define BATT_V_Pin GPIO_PIN_1
+#define BATT_V_GPIO_Port GPIOA
+#define PUMP_READINGS_Pin GPIO_PIN_2
+#define PUMP_READINGS_GPIO_Port GPIOA
 #define ISense_C1_Pin GPIO_PIN_3
 #define ISense_C1_GPIO_Port GPIOA
 #define ISense_C2_Pin GPIO_PIN_4
 #define ISense_C2_GPIO_Port GPIOA
+#define TWENTY_FOUR_V_Pin GPIO_PIN_5
+#define TWENTY_FOUR_V_GPIO_Port GPIOA
+#define TWELVE_V_Pin GPIO_PIN_6
+#define TWELVE_V_GPIO_Port GPIOA
+#define FIVE_V_Pin GPIO_PIN_7
+#define FIVE_V_GPIO_Port GPIOA
 #define FRG_RUN_Pin GPIO_PIN_0
 #define FRG_RUN_GPIO_Port GPIOB
 #define RFE_Pin GPIO_PIN_1
@@ -74,10 +82,12 @@
 #define P_AIR_STATUS_GPIO_Port GPIOA
 #define LD3_Pin GPIO_PIN_3
 #define LD3_GPIO_Port GPIOB
-#define Motor_Controller_Relay_CTRL_Pin GPIO_PIN_4
-#define Motor_Controller_Relay_CTRL_GPIO_Port GPIOB
-#define BATT_FAN_Pin GPIO_PIN_6
+#define BATT_FAN_Pin GPIO_PIN_4
 #define BATT_FAN_GPIO_Port GPIOB
+#define BRAKE_LIGHT_Pin GPIO_PIN_5
+#define BRAKE_LIGHT_GPIO_Port GPIOB
+#define PUMP_PWM_Pin GPIO_PIN_6
+#define PUMP_PWM_GPIO_Port GPIOB
 #define PUMP_Pin GPIO_PIN_7
 #define PUMP_GPIO_Port GPIOB
 
