@@ -190,6 +190,7 @@ void initRTOSObjects() {
 	xTaskCreate(taskTXCAN, "TX CAN", 64, NULL, 1, NULL);
 	xTaskCreate(taskRXCANProcess, "RX CAN", 64, NULL, 1, NULL);
 	xTaskCreate(taskBlink, "blink", 32, NULL, 1, NULL);
+	xTaskCreate(getCurrentValues, "Current Levels", 32, NULL, 1, NULL);
 	//xTaskCreate(taskMotorControllerPoll, "Motor Poll", 64, NULL, 1, NULL);
  }
 //extern uint8_t variable;
@@ -388,5 +389,71 @@ void taskCarMainRoutine() {
 	}
 
 }
+
+/***************************************************************************
+*
+*     Function Information
+*
+*     Name of Function: ADC for
+*
+*     Programmer's Name: Matt Flanagan
+*
+*     Function Return Type: void
+*
+*     Parameters (list data type, name, and comment one per line):
+*       1. None
+*
+*     Global Dependents: Car ADC values
+*
+*     Function Description: Every 10th of a second polls the current being drawn
+*     by the various electronic systems. Battery, Pump, Isense C1/2, 24v, 12v, 5v
+*
+*
+***************************************************************************/
+
+//extern ADC_HandleTypeDef hadc1;
+
+void getCurrentValues() {
+	for(;;) {
+		HAL_ADC_Start(&hadc1);
+		//Battery Voltage Level
+		HAL_ADC_PollForConversion(&hadc1, 10);
+		car.batt_adc = HAL_ADC_GetValue(&hadc1);
+		//Pump Level
+		HAL_ADC_PollForConversion(&hadc1, 10);
+		car.pump_adc = HAL_ADC_GetValue(&hadc1);
+		//Isense C1
+		HAL_ADC_PollForConversion(&hadc1, 10);
+		car.isense_c1_adc = HAL_ADC_GetValue(&hadc1);
+		//Isense C2
+		HAL_ADC_PollForConversion(&hadc1, 10);
+		car.isense_c2_adc = HAL_ADC_GetValue(&hadc1);
+		//24 Volt
+		HAL_ADC_PollForConversion(&hadc1, 10);
+		car.twenty_four_adc = HAL_ADC_GetValue(&hadc1);
+		//12 Volt
+		HAL_ADC_PollForConversion(&hadc1, 10);
+		car.twelve_adc = HAL_ADC_GetValue(&hadc1);
+		//5 Volt
+		HAL_ADC_PollForConversion(&hadc1, 10);
+		car.five_adc = HAL_ADC_GetValue(&hadc1);
+
+		HAL_ADC_Stop(&hadc1);
+
+		//testing code
+		/*
+		if (car.batt_adc > 0x555) {
+			HAL_GPIO_WritePin(GPIOC, TEST1_Pin, GPIO_PIN_SET);
+		}
+		else if (car.batt_adc > 0xAAA) {
+			HAL_GPIO_WritePin(GPIOC, TEST1_Pin|TEST2_Pin, GPIO_PIN_SET);
+		}
+		else {
+			HAL_GPIO_WritePin(GPIOC, TEST1_Pin|TEST2_Pin, GPIO_PIN_RESET);
+		}*/
+		vTaskDelay(100);
+	}
+}
+
 
 
