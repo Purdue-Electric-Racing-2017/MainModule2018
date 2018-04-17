@@ -190,7 +190,7 @@ void initRTOSObjects() {
 	xTaskCreate(taskTXCAN, "TX CAN", 64, NULL, 1, NULL);
 	xTaskCreate(taskRXCANProcess, "RX CAN", 64, NULL, 1, NULL);
 	xTaskCreate(taskBlink, "blink", 32, NULL, 1, NULL);
-	xTaskCreate(getCurrentValues, "Current Levels", 32, NULL, 1, NULL);
+	xTaskCreate(taskCurrentValues, "Current Levels", 32, NULL, 1, NULL);
 	//xTaskCreate(taskMotorControllerPoll, "Motor Poll", 64, NULL, 1, NULL);
  }
 //extern uint8_t variable;
@@ -413,7 +413,7 @@ void taskCarMainRoutine() {
 
 //extern ADC_HandleTypeDef hadc1;
 
-void getCurrentValues() {
+void taskCurrentValues() {
 	for(;;) {
 		HAL_ADC_Start(&hadc1);
 		//Battery Voltage Level
