@@ -150,13 +150,13 @@ typedef struct {
 	CAN_HandleTypeDef *		phcan;						//pointer to car's CAN peripheral handle
 	
 	//adc values for current levels of various systems
-	uint16_t				batt_adc					//battery 
-	uint16_t				pump_adc					//pump
-	uint16_t				isense_c1_adc				//c1 current
-	uint16_t				isense_c2_adc				//c2 current
-	uint16_t				twenty_four_adc				//24 volt
-	uint16_t				twelve_adc					//12 volt
-	uint16_t				five_adc					//5 volt
+	uint16_t				batt_adc;					//battery
+	uint16_t				pump_adc;					//pump
+	uint16_t				isense_c1_adc;				//c1 current
+	uint16_t				isense_c2_adc;				//c2 current
+	uint16_t				twenty_four_adc;				//24 volt
+	uint16_t				twelve_adc;					//12 volt
+	uint16_t				five_adc;					//5 volt
 
 } Car_t;
 
@@ -178,6 +178,6 @@ void taskBlink(void* can);
 void stopCar();
 void taskSendAccelero();
 void taskMotorControllerPoll();
-void getCurrentValues();
+void taskCurrentValues();
 
 #endif /* CAR_H_ */

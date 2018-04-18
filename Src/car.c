@@ -411,7 +411,7 @@ void taskCarMainRoutine() {
 *
 ***************************************************************************/
 
-//extern ADC_HandleTypeDef hadc1;
+extern ADC_HandleTypeDef hadc1;
 
 void taskCurrentValues() {
 	for(;;) {
