@@ -440,17 +440,6 @@ void taskCurrentValues() {
 
 		HAL_ADC_Stop(&hadc1);
 
-		//testing code
-		/*
-		if (car.batt_adc > 0x555) {
-			HAL_GPIO_WritePin(GPIOC, TEST1_Pin, GPIO_PIN_SET);
-		}
-		else if (car.batt_adc > 0xAAA) {
-			HAL_GPIO_WritePin(GPIOC, TEST1_Pin|TEST2_Pin, GPIO_PIN_SET);
-		}
-		else {
-			HAL_GPIO_WritePin(GPIOC, TEST1_Pin|TEST2_Pin, GPIO_PIN_RESET);
-		}*/
 		vTaskDelay(100);
 	}
 }
